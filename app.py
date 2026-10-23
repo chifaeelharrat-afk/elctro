@@ -33,6 +33,12 @@ with c2:
     s2_class = st.number_input("Class (Box 2)", value=2, key="class2")
     s2_servers = st.text_area("Serveurs (Box 2)", value="bss0003\nbss0004", key="srv2")
 
+with c3:
+    st.markdown("**Server Box #3**")
+    s3_ip = st.number_input("IP (Box 3)", value=2, key="ip3")
+    s3_class = st.number_input("Class (Box 3)", value=2, key="class3")
+    s3_servers = st.text_area("Serveurs (Box 3)", value="bss0005", key="srv3")
+    
 st.markdown("---")
 
 # Bouton de génération
