@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Générateur de Domaines", layout="wide")
 
-st.title("🌐 Générat VMTA")
+st.title("🌐 Générateur de Domaines")
 
 # Colonne 1 : Domaines
 col1, col2 = st.columns(2)
@@ -36,9 +36,9 @@ with c2:
 with c3:
     st.markdown("**Server Box #3**")
     s3_ip = st.number_input("IP (Box 3)", value=2, key="ip3")
-    s3_class = st.number_input("Class (Box 3)", value=2, key="class3")
+    s3_class = st.number_input("Class (Box 3)", value=3, key="class3")
     s3_servers = st.text_area("Serveurs (Box 3)", value="bss0005", key="srv3")
-    
+
 st.markdown("---")
 
 # Bouton de génération
@@ -47,9 +47,13 @@ if st.button("🚀 Générer la sortie"):
     domains = list(dict.fromkeys([d.strip() for d in domains_input.split("\n") if d.strip()]))
     subdomains = list(dict.fromkeys([s.strip() for s in subdomains_input.split("\n") if s.strip()]))
     
-    # Récupérer tous les serveurs uniques
+    # Extraire les serveurs de la Box 1 séparément
+    box1_servers = list(dict.fromkeys([s.strip() for s in s1_servers.split("\n") if s.strip()]))
+    
+    # Récupérer tous les serveurs
+    all_boxes = [s1_servers, s2_servers, s3_servers]
     all_servers = []
-    for srv_text in [s1_servers, s2_servers, s3_servers]:
+    for srv_text in all_boxes:
         for s in srv_text.split("\n"):
             if s.strip() and s.strip() not in all_servers:
                 all_servers.append(s.strip())
@@ -59,7 +63,7 @@ if st.button("🚀 Générer la sortie"):
     if all_servers and subdomains and domains:
         num_servers = len(all_servers)
         
-        # Diviser les domaines équitablement entre les serveurs sans répétition globale
+        # Diviser les domaines équitablement entre les serveurs
         domains_per_server = [[] for _ in range(num_servers)]
         for idx, domain in enumerate(domains):
             domains_per_server[idx % num_servers].append(domain)
@@ -72,9 +76,14 @@ if st.button("🚀 Générer la sortie"):
                 if not first:
                     results.append("")  # Ligne vide entre chaque serveur
                 
-                # Alterner les sous-domaines pour chaque domaine de ce serveur pour qu'ils ne se répètent pas
+                # Pour chaque domaine de ce serveur
                 for i, domain in enumerate(srv_domains):
-                    sub = subdomains[i % len(subdomains)]
+                    # Si le serveur appartient à la Server Box 1, fixer le sous-domaine sur 'one'
+                    if srv in box1_servers:
+                        sub = "one"
+                    else:
+                        sub = subdomains[i % len(subdomains)]
+                        
                     results.append(f"{srv}.{sub}.{domain}")
                 
                 first = False
@@ -83,4 +92,3 @@ if st.button("🚀 Générer la sortie"):
     
     st.subheader(f"Final Output (Lignes : {valid_lines_count})")
     st.code("\n".join(results), language="text")
-    
