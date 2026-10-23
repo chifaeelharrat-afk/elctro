@@ -1,8 +1,8 @@
 import streamlit as st
 
-st.set_page_config(page_title="Générateur de Domaines", layout="wide")
+st.set_page_config(page_title="Generat VMTA", layout="wide")
 
-st.title("🌐 Générateur de Sortie (Interface Web)")
+st.title("🌐 Generat VMTA")
 
 # Colonne 1 : Domaines
 col1, col2 = st.columns(2)
@@ -83,4 +83,3 @@ if st.button("🚀 Générer la sortie"):
     
     st.subheader(f"Final Output (Lignes : {valid_lines_count})")
     st.code("\n".join(results), language="text")
-    
