@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Générateur de Domaines", layout="wide")
 
-st.title("🌐 Générateur de Sortie (Interface Web)")
+st.title("🌐 AAAAAAAA")
 
 # Colonne 1 : Domaines
 col1, col2 = st.columns(2)
